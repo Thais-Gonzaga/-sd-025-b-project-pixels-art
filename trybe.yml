@@ -1,0 +1,10 @@
+ignore_files:
+  - cypress/
+  - .editorconfig
+  - .eslintignore
+  - .eslintrc.json
+  - .gitignore
+  - .stylelintrc.json
+  - cypress.json
+  - reporter.json
+  - README.md
