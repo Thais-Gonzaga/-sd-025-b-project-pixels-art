@@ -61,3 +61,11 @@ function addClassSelected(event) {
 }
 const [divColorPalette] = document.querySelectorAll('#color-palette');
 divColorPalette.addEventListener('click', addClassSelected);
+
+function paint(evento) {
+  const selected = document.querySelector('.selected');
+  const colorSelected = selected.style.background;
+  evento.target.style.backgroundColor = colorSelected;
+}
+const divPixelBoard = document.querySelector('#pixel-board');
+divPixelBoard.addEventListener('click', paint);
