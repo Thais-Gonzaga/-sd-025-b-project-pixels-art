@@ -17,3 +17,34 @@ for (let index = 0; index <= colors.length - 1; index += 1) {
   newDiv.style.background = colors[index];
   div.appendChild(newDiv);
 }
+
+const n = 5;
+const widthPixel = 40;
+const painting = document.createElement('div');
+painting.id = 'pixel-board';
+painting.style.backgroundColor = 'white';
+painting.style.width = `${widthPixel * n + n * 2}px`;
+main.appendChild(painting);
+
+for (let index = 0; index < n; index += 1) {
+  const line = document.createElement('div');
+  line.className = 'line';
+  line.style.width = `${widthPixel * n + n * 4}px`;
+  line.style.height = `${widthPixel + 2}px`;
+  for (let i = 0; i < n; i += 1) {
+    const elementPixel = document.createElement('div');
+    elementPixel.className = 'pixel';
+    elementPixel.style.width = `${widthPixel}px`;
+    elementPixel.style.height = `${widthPixel}px`;
+    line.appendChild(elementPixel);
+  }
+  painting.appendChild(line);
+}
+
+window.onload = function paintingWhith() {
+  const classPixel = document.querySelectorAll('.pixel');
+  for (let index = 0; index < classPixel.length; index += 1) {
+    classPixel[index].style.background = 'white';
+    console.log(classPixel[index]);
+  }
+};
