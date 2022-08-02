@@ -48,3 +48,16 @@ window.onload = function paintingWhith() {
     console.log(classPixel[index]);
   }
 };
+
+window.onload = function selectedBlack() {
+  const blackColor = document.querySelector('.color');
+  blackColor.classList.add('selected');
+};
+
+function addClassSelected(event) {
+  const selected = document.querySelector('.selected');
+  selected.classList.remove('selected');
+  event.target.classList.add('selected');
+}
+const [divColorPalette] = document.querySelectorAll('#color-palette');
+divColorPalette.addEventListener('click', addClassSelected);
