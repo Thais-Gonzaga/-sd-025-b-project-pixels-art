@@ -10,6 +10,10 @@ const div = document.createElement('div');
 div.id = 'color-palette';
 main.appendChild(div);
 
+const divButtonInput = document.createElement('div');
+divButtonInput.id = 'div-button';
+main.appendChild(divButtonInput);
+
 const colors = ['black', 'blue', 'green', 'red'];
 for (let index = 0; index <= colors.length - 1; index += 1) {
   const newDiv = document.createElement('div');
@@ -18,38 +22,42 @@ for (let index = 0; index <= colors.length - 1; index += 1) {
   div.appendChild(newDiv);
 }
 
-const n = 5;
-const widthPixel = 40;
-const painting = document.createElement('div');
-painting.id = 'pixel-board';
-painting.style.backgroundColor = 'white';
-painting.style.width = `${widthPixel * n + n * 2}px`;
-main.appendChild(painting);
-
-for (let index = 0; index < n; index += 1) {
+function createLine(number, widthPixel) {
   const line = document.createElement('div');
   line.className = 'line';
-  line.style.width = `${widthPixel * n + n * 4}px`;
+  line.style.width = `${widthPixel * number + number * 4}px`;
   line.style.height = `${widthPixel + 2}px`;
-  for (let i = 0; i < n; i += 1) {
-    const elementPixel = document.createElement('div');
-    elementPixel.className = 'pixel';
-    elementPixel.style.width = `${widthPixel}px`;
-    elementPixel.style.height = `${widthPixel}px`;
-    line.appendChild(elementPixel);
-  }
-  painting.appendChild(line);
+  return line;
 }
 
-window.onload = function paintingWhith() {
-  const classPixel = document.querySelectorAll('.pixel');
-  for (let index = 0; index < classPixel.length; index += 1) {
-    classPixel[index].style.background = 'white';
-    console.log(classPixel[index]);
-  }
-};
+function createPixel(widthPixel, line) {
+  const elementPixel = document.createElement('div');
+  elementPixel.className = 'pixel';
+  elementPixel.style.width = `${widthPixel}px`;
+  elementPixel.style.height = `${widthPixel}px`;
+  line.appendChild(elementPixel);
+}
 
-window.onload = function selectedBlack() {
+function creatBord(n) {
+  const number = n > 50 ? 50 : n;
+  const widthPixel = 40;
+  const painting = document.createElement('div');
+  painting.id = 'pixel-board';
+  painting.style.backgroundColor = 'white';
+  painting.style.width = `${widthPixel * number + number * 2}px`;
+  main.appendChild(painting);
+  for (let index = 0; index < number; index += 1) {
+    createLine(number, widthPixel);
+    const line = createLine(number, widthPixel);
+    for (let i = 0; i < number; i += 1) {
+      createPixel(widthPixel, line);
+    }
+    painting.appendChild(line);
+  }
+  return painting;
+}
+
+window.onload = function load() {
   const blackColor = document.querySelector('.color');
   blackColor.classList.add('selected');
 };
@@ -63,9 +71,46 @@ const [divColorPalette] = document.querySelectorAll('#color-palette');
 divColorPalette.addEventListener('click', addClassSelected);
 
 function paint(evento) {
+  console.log(paint);
   const selected = document.querySelector('.selected');
   const colorSelected = selected.style.background;
-  evento.target.style.backgroundColor = colorSelected;
+  const click = evento.target;
+  click.style.backgroundColor = colorSelected;
 }
-const divPixelBoard = document.querySelector('#pixel-board');
+const divPixelBoard = creatBord(5);
 divPixelBoard.addEventListener('click', paint);
+
+function createButton(text, id) {
+  const button = document.createElement('button');
+  button.innerHTML = text;
+  button.id = id;
+  divButtonInput.appendChild(button);
+  return button;
+}
+
+function clearButton() {
+  const pixels = document.querySelectorAll('.pixel');
+  for (let index = 0; index < pixels.length; index += 1) {
+    pixels[index].style.backgroundColor = 'white';
+  }
+}
+const elementButton = createButton('Limpar', 'clear-board');
+elementButton.addEventListener('click', clearButton);
+
+const input = document.createElement('input');
+input.id = 'board-size';
+input.type = 'number';
+input.min = 1;
+input.max = 50;
+divButtonInput.appendChild(input);
+
+function button2VQV() {
+  if (!input.value) return alert('Board inválido!');
+  const divPixel = document.getElementById('pixel-board');
+  divPixel.remove();
+  if (input.value < 5) return creatBord(5);
+  const divNew = creatBord(Number(input.value));
+  divNew.addEventListener('click', paint);
+}
+const button2 = createButton('VQV', 'generate-board');
+button2.addEventListener('click', button2VQV);
