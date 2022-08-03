@@ -57,11 +57,6 @@ function creatBord(n) {
   return painting;
 }
 
-window.onload = function load() {
-  const blackColor = document.querySelector('.color');
-  blackColor.classList.add('selected');
-};
-
 function addClassSelected(event) {
   const selected = document.querySelector('.selected');
   selected.classList.remove('selected');
@@ -71,7 +66,6 @@ const [divColorPalette] = document.querySelectorAll('#color-palette');
 divColorPalette.addEventListener('click', addClassSelected);
 
 function paint(evento) {
-  console.log(paint);
   const selected = document.querySelector('.selected');
   const colorSelected = selected.style.background;
   const click = evento.target;
@@ -114,3 +108,23 @@ function button2VQV() {
 }
 const button2 = createButton('VQV', 'generate-board');
 button2.addEventListener('click', button2VQV);
+
+function colorDraw() {
+  const draw1 = Math.round((Math.random() * 16)).toString(16);
+  const draw2 = Math.round((Math.random() * 16)).toString(16);
+  const draw3 = Math.round((Math.random() * 16)).toString(16);
+  return `#${draw1}${draw2}${draw3}`;
+}
+
+function colorChange() {
+  const classColor = document.querySelectorAll('.color');
+  for (let index = 1; index < classColor.length; index += 1) {
+    classColor[index].style.background = colorDraw();
+    console.log(index, classColor[index]);
+  }
+}
+window.onload = function load() {
+  const blackColor = document.querySelector('.color');
+  blackColor.classList.add('selected');
+  colorChange();
+};
